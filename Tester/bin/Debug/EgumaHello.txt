@@ -1,0 +1,8 @@
+Dll Version: 1.0.3.0
+InternetOpenA() succeeded
+InternetConnectA() succeeded
+HttpOpenRequestA() succeeded
+HttpSendRequestA() suceeded
+Status Code: '200'
+Response Data: 'OK'
+Done!
