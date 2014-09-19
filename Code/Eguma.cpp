@@ -10,7 +10,7 @@ using namespace std;
 #pragma comment( lib, "wininet" )
 
 
-#define VERSION_NUMBER "1.0.3.0" // when you update it, do it also in version.rc
+#define VERSION_NUMBER "1.0.4.0" // when you update it, do it also in version.rc
 
 
 enum HttpMethod
@@ -136,7 +136,7 @@ void WriteLog(FILE* f, char* name, int value)
 
 bool SendHttpRequest(const string& url, HttpMethod httpMethod, char* postData, string& response, char* error, FILE* logFile)
 {
-	HINTERNET hIntSession = InternetOpenA("EgumaWinCE",INTERNET_OPEN_TYPE_DIRECT,NULL,NULL,0);
+	HINTERNET hIntSession = InternetOpenA("EgumaWin-Client",INTERNET_OPEN_TYPE_DIRECT,NULL,NULL,0);
 	
 	if (hIntSession == NULL)
 	{
@@ -146,7 +146,7 @@ bool SendHttpRequest(const string& url, HttpMethod httpMethod, char* postData, s
 	}
 	WriteLog(logFile, "InternetOpenA() succeeded");
 	
-
+	// api.e-guma.ch
 	HINTERNET hHttpSession = InternetConnectA(hIntSession, "api.e-guma.ch",INTERNET_DEFAULT_HTTP_PORT, NULL,NULL,INTERNET_SERVICE_HTTP,0,0);
 	if (hHttpSession == NULL)
 	{
@@ -174,11 +174,7 @@ bool SendHttpRequest(const string& url, HttpMethod httpMethod, char* postData, s
 	
 	
 	char* headers = NULL;
-	if (httpMethod == POST)
-		headers = "Content-Type: application/x-www-form-urlencoded";
-	else
-		headers = "Content-Type: application/json";
-
+	headers = "Content-Type: application/json";
     
 	int postDataSize = 0;
 	if (postData != NULL)
@@ -324,7 +320,7 @@ void Redeem(char* apiKey, char* code, int amountInCents, char* codeOut,
 
 	string url = string("v1/vouchers/") + CleanCode(code) + string("/redeem.json?apikey=") + string(apiKey);
 	char postData[1024];
-	sprintf(postData, "amount_in_cents=%i", amountInCents);
+	sprintf(postData, "{\"amount_in_cents\":%i}", amountInCents);
 	string json;
 
 	if (!SendHttpRequest(url, POST, postData, json, error, logFile))
@@ -360,7 +356,7 @@ void CancelRedemption(char* apiKey, char* code, int amountInCents, char* codeOut
 
 	string url = string("v1/vouchers/") + CleanCode(code) + string("/cancel_redemption.json?apikey=") + string(apiKey);
 	char postData[1024];
-	sprintf(postData, "amount_in_cents=%i", amountInCents);
+	sprintf(postData, "{\"amount_in_cents\":%i}", amountInCents);
 	string json;
 
 	if (!SendHttpRequest(url, POST, postData, json, error, logFile))
@@ -383,18 +379,17 @@ void CancelRedemption(char* apiKey, char* code, int amountInCents, char* codeOut
 	fclose(logFile);
 }
 
-void DepotStatus(char* apiKey, char* code, int* amountInCents, int* canBeActivated,
-				 int* canBeDeactivated, char* codeOut, char* error, int* hasError)
+void DepotActivateStatus(char* apiKey, char* code, int* amountInCents, int* canBeActivated, char* codeOut, char* message, char* error, int* hasError)
 {
 	*hasError = 0;
 
-	FILE* logFile = fopen("EgumaDepotStatus.txt", "w");
+	FILE* logFile = fopen("EgumaDepotActivateStatus.txt", "w");
 
 	WriteLog(logFile, "API-Key", apiKey);
 	WriteLog(logFile, "Code", code);
 	
 
-	string url = string("v1/vouchers/") + CleanCode(code) + string("/depot_status.json?apikey=") + string(apiKey);
+	string url = string("v1/depot_vouchers/") + CleanCode(code) + string("/activate_status.json?apikey=") + string(apiKey);
 	string json;
 
 	if (!SendHttpRequest(url, GET, NULL, json, error, logFile))
@@ -403,11 +398,11 @@ void DepotStatus(char* apiKey, char* code, int* amountInCents, int* canBeActivat
 		return;
 	}
 
-
 	*amountInCents = GetNumber(json, "amount_in_cents");
-
 	*canBeActivated = GetBool(json, "can_be_activated");
-	*canBeDeactivated = GetBool(json, "can_be_deactivated");
+
+	string msg = GetString(json, "message");
+	sprintf(message, "%s", msg.c_str());
 	
 	string codeTemp = GetString(json, "code");
 	sprintf(codeOut, "%s", codeTemp.c_str()); 
@@ -415,11 +410,11 @@ void DepotStatus(char* apiKey, char* code, int* amountInCents, int* canBeActivat
 
 	WriteLog(logFile, "Amount in Cents", *amountInCents);
 	WriteLog(logFile, "Code out", codeOut);
+	WriteLog(logFile, "Message", message);
 	WriteLog(logFile, "Done!");
 
 	fclose(logFile);
 }
-
 
 void Activate(char* apiKey, char* code, int* amountInCents, char* codeOut, char* error, int* hasError)
 {
@@ -430,7 +425,7 @@ void Activate(char* apiKey, char* code, int* amountInCents, char* codeOut, char*
 	WriteLog(logFile, "API-Key", apiKey);
 	WriteLog(logFile, "Code", code);
 
-	string url = string("v1/vouchers/") + CleanCode(code) + string("/activate.json?apikey=") + string(apiKey);
+	string url = string("v1/depot_vouchers/") + CleanCode(code) + string("/activate.json?apikey=") + string(apiKey);
 	string json;
 
 	if (!SendHttpRequest(url, POST, NULL, json, error, logFile))
@@ -453,6 +448,43 @@ void Activate(char* apiKey, char* code, int* amountInCents, char* codeOut, char*
 	fclose(logFile);
 }
 
+void DepotDeactivateStatus(char* apiKey, char* code, int* amountInCents, int* canBeDeactivated, char* codeOut, char* message, char* error, int* hasError)
+{
+	*hasError = 0;
+
+	FILE* logFile = fopen("EgumaDepotDeactivateStatus.txt", "w");
+
+	WriteLog(logFile, "API-Key", apiKey);
+	WriteLog(logFile, "Code", code);
+	
+
+	string url = string("v1/depot_vouchers/") + CleanCode(code) + string("/deactivate_status.json?apikey=") + string(apiKey);
+	string json;
+
+	if (!SendHttpRequest(url, GET, NULL, json, error, logFile))
+	{  
+		*hasError = 1;
+		return;
+	}
+
+	*amountInCents = GetNumber(json, "amount_in_cents");
+	*canBeDeactivated = GetBool(json, "can_be_deactivated");
+
+	string msg = GetString(json, "message");
+	sprintf(message, "%s", msg.c_str());
+	
+	string codeTemp = GetString(json, "code");
+	sprintf(codeOut, "%s", codeTemp.c_str()); 
+		
+
+	WriteLog(logFile, "Amount in Cents", *amountInCents);
+	WriteLog(logFile, "Code out", codeOut);
+	WriteLog(logFile, "Message", message);
+	WriteLog(logFile, "Done!");
+
+	fclose(logFile);
+}
+
 void Deactivate(char* apiKey, char* code, int* amountInCents, char* codeOut, char* error, int* hasError)
 {
 	*hasError = 0;
@@ -462,7 +494,7 @@ void Deactivate(char* apiKey, char* code, int* amountInCents, char* codeOut, cha
 	WriteLog(logFile, "API-Key", apiKey);
 	WriteLog(logFile, "Code", code);
 
-	string url = string("v1/vouchers/") + CleanCode(code) + string("/deactivate.json?apikey=") + string(apiKey);
+	string url = string("v1/depot_vouchers/") + CleanCode(code) + string("/deactivate.json?apikey=") + string(apiKey);
 	string json;
 
 	if (!SendHttpRequest(url, POST, NULL, json, error, logFile))

@@ -1,0 +1,12 @@
+API-Key: '510e32c594d84816a4af9df0'
+Code: 'EADS-HD24-AKS5'
+InternetOpenA() succeeded
+InternetConnectA() succeeded
+HttpOpenRequestA() succeeded
+HttpSendRequestA() suceeded
+Status Code: '200'
+Response Data: '{"code":"EADS-HD24-AKS5","can_be_deactivated":false,"amount_in_cents":0,"message":"Der Gutschein wurde noch nicht aktiviert."}'
+Amount in Cents: '0'
+Code out: 'EADS-HD24-AKS5'
+Message: 'Der Gutschein wurde noch nicht aktiviert.'
+Done!

@@ -20,10 +20,13 @@ namespace EgumaCppLibTester
 		public static extern void CancelRedemption(byte[] apiKey, byte[] code, int amountInCents, byte[] codeOut, out int balanceInCents, byte[] error, out bool hasError);
 
 		[DllImport("Eguma.dll")]
-		public static extern void DepotStatus(byte[] apiKey, byte[] code, out int amountInCents, out bool canBeActivated, out bool canBeDeactivated, byte[] codeOut, byte[] error, out bool hasError);
+		public static extern void DepotActivateStatus(byte[] apiKey, byte[] code, out int amountInCents, out bool canBeActivated, byte[] codeOut, byte[] message,  byte[] error, out bool hasError);
 
 		[DllImport("Eguma.dll")]
 		public static extern void Activate(byte[] apiKey, byte[] code, out int amountInCents, byte[] codeOut, byte[] error, out bool hasError);
+
+		[DllImport("Eguma.dll")]
+		public static extern void DepotDeactivateStatus(byte[] apiKey, byte[] code, out int amountInCents, out bool canBeDeactivated, byte[] codeOut, byte[] message,  byte[] error, out bool hasError);
 
 		[DllImport("Eguma.dll")]
 		public static extern void Deactivate(byte[] apiKey, byte[] code, out int amountInCents, byte[] codeOut, byte[] error, out bool hasError);
@@ -58,8 +61,15 @@ namespace EgumaCppLibTester
 		private System.Windows.Forms.Button button7;
 		private System.Windows.Forms.Button button8;
 		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label labelDepotCanBeDeactivated;
 		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.Label labelDepotMessage;
+		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.Label labelDeactivateMessage;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.Label labelDeactivateAmount;
+		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.Label labelDeactivateCanBe;
+		private System.Windows.Forms.Button button9;
 
 
 
@@ -116,8 +126,15 @@ namespace EgumaCppLibTester
 			this.button7 = new System.Windows.Forms.Button();
 			this.button8 = new System.Windows.Forms.Button();
 			this.label8 = new System.Windows.Forms.Label();
-			this.labelDepotCanBeDeactivated = new System.Windows.Forms.Label();
+			this.labelDepotMessage = new System.Windows.Forms.Label();
 			this.button3 = new System.Windows.Forms.Button();
+			this.label10 = new System.Windows.Forms.Label();
+			this.labelDeactivateMessage = new System.Windows.Forms.Label();
+			this.label12 = new System.Windows.Forms.Label();
+			this.labelDeactivateAmount = new System.Windows.Forms.Label();
+			this.label14 = new System.Windows.Forms.Label();
+			this.labelDeactivateCanBe = new System.Windows.Forms.Label();
+			this.button9 = new System.Windows.Forms.Button();
 			// 
 			// button1
 			// 
@@ -128,8 +145,8 @@ namespace EgumaCppLibTester
 			// 
 			// button2
 			// 
-			this.button2.Location = new System.Drawing.Point(48, 408);
-			this.button2.Size = new System.Drawing.Size(176, 64);
+			this.button2.Location = new System.Drawing.Point(40, 424);
+			this.button2.Size = new System.Drawing.Size(176, 48);
 			this.button2.Text = "Close";
 			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
@@ -249,21 +266,21 @@ namespace EgumaCppLibTester
 			// button6
 			// 
 			this.button6.Location = new System.Drawing.Point(48, 256);
-			this.button6.Size = new System.Drawing.Size(200, 56);
-			this.button6.Text = "Depot Status";
+			this.button6.Size = new System.Drawing.Size(176, 56);
+			this.button6.Text = "Depot Activate Status";
 			this.button6.Click += new System.EventHandler(this.button6_Click);
 			// 
 			// button7
 			// 
-			this.button7.Location = new System.Drawing.Point(280, 256);
-			this.button7.Size = new System.Drawing.Size(200, 56);
+			this.button7.Location = new System.Drawing.Point(272, 256);
+			this.button7.Size = new System.Drawing.Size(104, 56);
 			this.button7.Text = "Activate";
 			this.button7.Click += new System.EventHandler(this.button7_Click);
 			// 
 			// button8
 			// 
-			this.button8.Location = new System.Drawing.Point(528, 256);
-			this.button8.Size = new System.Drawing.Size(200, 56);
+			this.button8.Location = new System.Drawing.Point(632, 256);
+			this.button8.Size = new System.Drawing.Size(96, 56);
 			this.button8.Text = "Deactivate";
 			this.button8.Click += new System.EventHandler(this.button8_Click);
 			// 
@@ -271,26 +288,82 @@ namespace EgumaCppLibTester
 			// 
 			this.label8.Location = new System.Drawing.Point(8, 376);
 			this.label8.Size = new System.Drawing.Size(136, 20);
-			this.label8.Text = "CanBeDeactivated:";
+			this.label8.Text = "Message:";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
-			// labelDepotCanBeDeactivated
+			// labelDepotMessage
 			// 
-			this.labelDepotCanBeDeactivated.Location = new System.Drawing.Point(152, 376);
+			this.labelDepotMessage.Location = new System.Drawing.Point(152, 376);
+			this.labelDepotMessage.Size = new System.Drawing.Size(176, 32);
 			// 
 			// button3
 			// 
-			this.button3.Location = new System.Drawing.Point(536, 400);
-			this.button3.Size = new System.Drawing.Size(200, 56);
+			this.button3.Location = new System.Drawing.Point(696, 40);
+			this.button3.Size = new System.Drawing.Size(72, 56);
 			this.button3.Text = "Hello";
 			this.button3.Click += new System.EventHandler(this.button3_Click);
+			// 
+			// label10
+			// 
+			this.label10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
+			this.label10.Location = new System.Drawing.Point(400, 376);
+			this.label10.Size = new System.Drawing.Size(136, 20);
+			this.label10.Text = "Message:";
+			this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// labelDeactivateMessage
+			// 
+			this.labelDeactivateMessage.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
+			this.labelDeactivateMessage.Location = new System.Drawing.Point(544, 376);
+			this.labelDeactivateMessage.Size = new System.Drawing.Size(192, 64);
+			// 
+			// label12
+			// 
+			this.label12.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
+			this.label12.Location = new System.Drawing.Point(360, 328);
+			this.label12.Size = new System.Drawing.Size(176, 24);
+			this.label12.Text = "Amount (in Cents):";
+			this.label12.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// labelDeactivateAmount
+			// 
+			this.labelDeactivateAmount.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
+			this.labelDeactivateAmount.Location = new System.Drawing.Point(544, 328);
+			// 
+			// label14
+			// 
+			this.label14.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
+			this.label14.Location = new System.Drawing.Point(424, 352);
+			this.label14.Size = new System.Drawing.Size(112, 20);
+			this.label14.Text = "CanBeDeactivated:";
+			this.label14.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// labelDeactivateCanBe
+			// 
+			this.labelDeactivateCanBe.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
+			this.labelDeactivateCanBe.Location = new System.Drawing.Point(544, 352);
+			// 
+			// button9
+			// 
+			this.button9.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
+			this.button9.Location = new System.Drawing.Point(440, 256);
+			this.button9.Size = new System.Drawing.Size(176, 56);
+			this.button9.Text = "Depot Activate Status";
+			this.button9.Click += new System.EventHandler(this.button9_Click);
 			// 
 			// Form1
 			// 
 			this.ClientSize = new System.Drawing.Size(866, 479);
+			this.Controls.Add(this.label10);
+			this.Controls.Add(this.labelDeactivateMessage);
+			this.Controls.Add(this.label12);
+			this.Controls.Add(this.labelDeactivateAmount);
+			this.Controls.Add(this.label14);
+			this.Controls.Add(this.labelDeactivateCanBe);
+			this.Controls.Add(this.button9);
 			this.Controls.Add(this.button3);
 			this.Controls.Add(this.label8);
-			this.Controls.Add(this.labelDepotCanBeDeactivated);
+			this.Controls.Add(this.labelDepotMessage);
 			this.Controls.Add(this.button8);
 			this.Controls.Add(this.button7);
 			this.Controls.Add(this.label3);
@@ -321,9 +394,10 @@ namespace EgumaCppLibTester
 		}
 		#endregion
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
+	
+		// staging: 510e32c594d84816a4af9df0
+		// live: 510e32c594d84816a4af9df0
+		private byte[] ApiKey { get { return System.Text.Encoding.ASCII.GetBytes("510e32c594d84816a4af9df0");}}
 
 		static void Main() 
 		{
@@ -340,7 +414,7 @@ namespace EgumaCppLibTester
 			bool isRedeemable;
 			bool hasError = false;
 
-			GetBalance(System.Text.Encoding.ASCII.GetBytes("510e32c594d84816a4af9df0"), 
+			GetBalance(ApiKey, 
 					   System.Text.Encoding.ASCII.GetBytes("2QH3-QTDM-28N6 "),
 					   codeOut,
 					   out isRedeemable,
@@ -378,7 +452,7 @@ namespace EgumaCppLibTester
 			byte[] error = new byte[1024];
 			bool hasError;
 
-			Redeem(System.Text.Encoding.ASCII.GetBytes("510e32c594d84816a4af9df0"), 
+			Redeem(ApiKey, 
 				System.Text.Encoding.ASCII.GetBytes("2QH3-QTDM-28N6"),
 				200,
 				codeOut,
@@ -403,7 +477,7 @@ namespace EgumaCppLibTester
 			byte[] error = new byte[1024];
 			bool hasError;
 
-			CancelRedemption(System.Text.Encoding.ASCII.GetBytes("510e32c594d84816a4af9df0"), 
+			CancelRedemption(ApiKey, 
 				System.Text.Encoding.ASCII.GetBytes("2QH3-QTDM-28N6"),
 				200,
 				codeOut,
@@ -424,17 +498,17 @@ namespace EgumaCppLibTester
 		{
 			int amountInCents;
 			bool canBeActivated;
-			bool canBeDeactivated;
 			byte[] codeOut = new byte[32];
+			byte[] message = new byte[1024];
 			byte[] error = new byte[1024];
 			bool hasError;
 
-			DepotStatus(System.Text.Encoding.ASCII.GetBytes("510e32c594d84816a4af9df0"), 
+			DepotActivateStatus(ApiKey, 
 				System.Text.Encoding.ASCII.GetBytes("EADS-HD24-AKS5"),
 				out amountInCents,
 				out canBeActivated,
-				out canBeDeactivated,
 				codeOut,
+				message,
 				error,
 				out hasError);		
 
@@ -446,7 +520,7 @@ namespace EgumaCppLibTester
 
 			labelDepotStatusAmountInCents.Text = amountInCents.ToString();
 			labelDepotStatusIsInDepot.Text = canBeActivated ? "true" : "false";
-			labelDepotCanBeDeactivated.Text = canBeDeactivated ? "true" : "false";
+			labelDepotMessage.Text = System.Text.Encoding.ASCII.GetString(message, 0, message.Length);
 		}
 
 		private void button7_Click(object sender, System.EventArgs e)
@@ -456,7 +530,7 @@ namespace EgumaCppLibTester
 			byte[] error = new byte[1024];
 			bool hasError;
 
-			Activate(System.Text.Encoding.ASCII.GetBytes("510e32c594d84816a4af9df0"), 
+			Activate(ApiKey, 
 				System.Text.Encoding.ASCII.GetBytes("EADS-HD24-AKS5 "),
 				out amountInCents,
 				codeOut,
@@ -478,7 +552,7 @@ namespace EgumaCppLibTester
 			byte[] error = new byte[1024];
 			bool hasError;
 
-			Deactivate(System.Text.Encoding.ASCII.GetBytes("510e32c594d84816a4af9df0"), 
+			Deactivate(ApiKey, 
 				System.Text.Encoding.ASCII.GetBytes("EADS-HD24-AKS5"),
 				out amountInCents,
 				codeOut,
@@ -498,5 +572,36 @@ namespace EgumaCppLibTester
 			Hello(error);
 			MessageBox.Show(System.Text.Encoding.ASCII.GetString(error, 0, error.Length));
 		}
+
+		private void button9_Click(object sender, System.EventArgs e)
+		{
+			int amountInCents;
+			bool canBeDeactivated;
+			byte[] codeOut = new byte[32];
+			byte[] message = new byte[1024];
+			byte[] error = new byte[1024];
+			bool hasError;
+
+			DepotDeactivateStatus(ApiKey, 
+				System.Text.Encoding.ASCII.GetBytes("EADS-HD24-AKS5"),
+				out amountInCents,
+				out canBeDeactivated,
+				codeOut,
+				message,
+				error,
+				out hasError);		
+
+			if (hasError)
+			{
+				MessageBox.Show(System.Text.Encoding.ASCII.GetString(error, 0, error.Length));
+				return;
+			}
+
+			labelDeactivateAmount.Text = amountInCents.ToString();
+			labelDeactivateCanBe.Text = canBeDeactivated ? "true" : "false";
+			labelDeactivateMessage.Text = System.Text.Encoding.ASCII.GetString(message, 0, message.Length);
+		}
+
+		
 	}
 }
