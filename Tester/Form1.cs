@@ -305,7 +305,6 @@ namespace EgumaCppLibTester
 			// 
 			// label10
 			// 
-			this.label10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
 			this.label10.Location = new System.Drawing.Point(400, 376);
 			this.label10.Size = new System.Drawing.Size(136, 20);
 			this.label10.Text = "Message:";
@@ -313,13 +312,11 @@ namespace EgumaCppLibTester
 			// 
 			// labelDeactivateMessage
 			// 
-			this.labelDeactivateMessage.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
 			this.labelDeactivateMessage.Location = new System.Drawing.Point(544, 376);
 			this.labelDeactivateMessage.Size = new System.Drawing.Size(192, 64);
 			// 
 			// label12
 			// 
-			this.label12.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
 			this.label12.Location = new System.Drawing.Point(360, 328);
 			this.label12.Size = new System.Drawing.Size(176, 24);
 			this.label12.Text = "Amount (in Cents):";
@@ -327,12 +324,10 @@ namespace EgumaCppLibTester
 			// 
 			// labelDeactivateAmount
 			// 
-			this.labelDeactivateAmount.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
 			this.labelDeactivateAmount.Location = new System.Drawing.Point(544, 328);
 			// 
 			// label14
 			// 
-			this.label14.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
 			this.label14.Location = new System.Drawing.Point(424, 352);
 			this.label14.Size = new System.Drawing.Size(112, 20);
 			this.label14.Text = "CanBeDeactivated:";
@@ -340,15 +335,13 @@ namespace EgumaCppLibTester
 			// 
 			// labelDeactivateCanBe
 			// 
-			this.labelDeactivateCanBe.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
 			this.labelDeactivateCanBe.Location = new System.Drawing.Point(544, 352);
 			// 
 			// button9
 			// 
-			this.button9.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
 			this.button9.Location = new System.Drawing.Point(440, 256);
 			this.button9.Size = new System.Drawing.Size(176, 56);
-			this.button9.Text = "Depot Activate Status";
+			this.button9.Text = "Depot Deactivate Status";
 			this.button9.Click += new System.EventHandler(this.button9_Click);
 			// 
 			// Form1

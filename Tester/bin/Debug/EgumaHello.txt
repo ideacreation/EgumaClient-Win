@@ -1,4 +1,4 @@
-Dll Version: 1.0.3.0
+Dll Version: 1.0.4.0
 InternetOpenA() succeeded
 InternetConnectA() succeeded
 HttpOpenRequestA() succeeded

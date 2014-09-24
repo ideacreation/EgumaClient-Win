@@ -5,8 +5,8 @@ InternetConnectA() succeeded
 HttpOpenRequestA() succeeded
 HttpSendRequestA() suceeded
 Status Code: '200'
-Response Data: '{"code":"EADS-HD24-AKS5","can_be_activated":false,"amount_in_cents":0,"message":"Der Gutschein wurde bereits aktiviert."}'
-Amount in Cents: '0'
+Response Data: '{"code":"EADS-HD24-AKS5","can_be_activated":true,"amount_in_cents":5000,"message":""}'
+Amount in Cents: '5000'
 Code out: 'EADS-HD24-AKS5'
-Message: 'Der Gutschein wurde bereits aktiviert.'
+Message: ''
 Done!
